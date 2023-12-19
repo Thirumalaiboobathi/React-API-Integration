@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
+import Table from 'react-bootstrap/Table';
+import Button from 'react-bootstrap/Button';
 
 const Home = () => {
   const [todos, setTodos] = useState([]);
@@ -15,35 +18,72 @@ const Home = () => {
   };
 
   const handleLogout = () => {
-    // Perform any logout actions (e.g., clear user session, reset local storage)
-    // For example: localStorage.clear();
     navigate('/');
+  };
+
+  const handleEdit = (index) => {
+    const todoToEdit = todos[index];
+    navigate('/additems', { state: { editing: true, todoToEdit } });
+  };
+
+  const handleDelete = (index) => {
+    const updatedTodos = [...todos.slice(0, index), ...todos.slice(index + 1)];
+    setTodos(updatedTodos);
+    localStorage.setItem('todos', JSON.stringify(updatedTodos));
   };
 
   return (
     <div className="container">
-      <header style={{ marginBottom: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <h1 style={{ margin: '0', fontSize: '24px', color: 'blue' }}>Todo List</h1>
-        
-      </header>
-      <div>
-        {todos.length === 0 ? (
-          <p style={{ fontStyle: 'italic', color: 'gray' }}>No items yet</p>
-        ) : (
-          <ul style={{ listStyle: 'none', padding: '0' }}>
-            {todos.map((todo, index) => (
-              <li key={index} style={{ marginBottom: '10px', padding: '10px', border: '1px solid #ccc', backgroundColor: index % 2 === 0 ? '#f5f5f5' : '#e0e0e0' }}>
-                <strong style={{ color: 'green' }}>Title:</strong> {todo.title}, <strong style={{ color: 'blue' }}>Due Date:</strong> {todo.date}
-              </li>
-            ))}
-          </ul>
-        )}
-        <div>
-          <button onClick={handleAddTodo} style={{ marginRight: '30px', padding: '8px 16px', fontSize: '16px', backgroundColor: 'green', color: 'white', border: 'none', borderRadius: '5px' }}>Add Todo</button>
-          <button onClick={handleLogout} style={{ padding: '8px 16px', fontSize: '16px', backgroundColor: 'red', color: 'white', border: 'none', borderRadius: '5px',marginLeft:'90px' }}>Logout</button>
+      <header>
+        <h1>Todo List</h1>
+        <div className="d-flex justify-content-between align-items-center">
+          <Button variant="primary" className="mb-2" onClick={handleAddTodo}>
+            Add Todo
+          </Button>
+          <Button variant="danger" className="mb-2" onClick={handleLogout}>
+            Logout
+          </Button>
         </div>
+      </header>
+      <div className="table-responsive">
+        {todos.length === 0 ? (
+          <p>No items yet</p>
+        ) : (
+          <Table bordered>
+            <thead>
+              {/* ... table headers ... */}
+              <tr>
+                <th>Student Name</th>
+                <th>Age</th>
+                <th>Email</th>
+                <th>Qualification</th>
+                <th>Phone Number</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {todos.map((todo, index) => (
+                <tr key={index}>
+                  {/* ... table data ... */}
+                  <td>{todo.studentName}</td>
+                  <td>{todo.age}</td>
+                  <td>{todo.email}</td>
+                  <td>{todo.qualification}</td>
+                  <td>{todo.phoneNumber}</td>
+                  <td>
+                    <Button variant="primary" onClick={() => handleEdit(index)}>
+                      Edit
+                    </Button>{' '}
+                    <Button variant="danger" onClick={() => handleDelete(index)}>
+                      Delete
+                    </Button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        )}
       </div>
-      <hr style={{ margin: '20px 0', borderColor: 'blue' }} />
     </div>
   );
 };

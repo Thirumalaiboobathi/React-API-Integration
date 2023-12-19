@@ -1,19 +1,38 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './addtodo.css'
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
+import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
+import './addtodo.css'; // Import the CSS file
 
-const AddTodo = () => {
-  const [title, setTitle] = useState('');
-  const [date, setDate] = useState('');
+const AddItems = () => {
+  const [studentName, setStudentName] = useState('');
+  const [email, setEmail] = useState('');
+  const [qualification, setQualification] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [age, setAge] = useState('');
+  const [showAlert, setShowAlert] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (showAlert) {
+      setTimeout(() => {
+        setShowAlert(false);
+      }, 3000);
+    }
+  }, [showAlert]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const newTodo = { title, date };
+    const newTodo = { studentName, email, qualification, phoneNumber, age };
     const existingTodos = JSON.parse(localStorage.getItem('todos')) || [];
     const updatedTodos = [...existingTodos, newTodo];
     localStorage.setItem('todos', JSON.stringify(updatedTodos));
-    navigate('/home');
+    setShowAlert(true);
+
+    setTimeout(() => {
+      navigate('/home');
+    }, 5000);
   };
 
   const handleGoBack = () => {
@@ -21,34 +40,72 @@ const AddTodo = () => {
   };
 
   return (
-    <div className="outer-container">
-      <div className="container" style={{ border: '2px solid #ccc', padding: '20px', borderRadius: '10px', maxWidth: '400px', margin: '0 auto' }}>
-        <h1 style={{ color: 'blue' }}>Add Todo</h1>
-        <button onClick={handleGoBack} style={{ backgroundColor: 'red', color: 'white' }}>Go Back</button>
-        <form onSubmit={handleSubmit}>
-          <div>
-            <label htmlFor="title">Title:</label>
-            <input
+    <div className="container">
+      <div className="border rounded p-4 mt-4">
+        <h1 className="text-center mb-4">Enter Student Details</h1>
+        <Button variant="danger" onClick={handleGoBack} className="float-right mb-3">
+          Go Back
+        </Button>
+        <Form onSubmit={handleSubmit}>
+          <Form.Group>
+            <Form.Label>Student Name:</Form.Label>
+            <Form.Control
               type="text"
-              id="title"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
+              value={studentName}
+              onChange={(e) => setStudentName(e.target.value)}
             />
-          </div>
-          <div>
-            <label htmlFor="date">Due Date:</label>
-            <input
-              type="date"
-              id="date"
-              value={date}
-              onChange={(e) => setDate(e.target.value)}
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>Age:</Form.Label>
+            <Form.Control
+              type="number"
+              value={age}
+              onChange={(e) => setAge(e.target.value)}
             />
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>Email:</Form.Label>
+            <Form.Control
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>Qualification:</Form.Label>
+            <Form.Control
+              as="select"
+              value={qualification}
+              onChange={(e) => setQualification(e.target.value)}
+            >
+              <option value="">Select</option>
+              <option value="BE/B Tech">BE/B Tech</option>
+              <option value="ME">ME</option>
+              <option value="Bsc">Bsc</option>
+              <option value="Msc">Msc</option>
+              <option value="Diploma">Diploma</option>
+            </Form.Control>
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>Phone Number:</Form.Label>
+            <Form.Control
+              type="tel"
+              value={phoneNumber}
+              onChange={(e) => setPhoneNumber(e.target.value)}
+            />
+          </Form.Group>
+          <Button type="submit" variant="success" className="d-block mx-auto">
+            Add Student
+          </Button>
+        </Form>
+        {showAlert && (
+          <div className="alert animate__animated animate__fadeInOut">
+            Student information added successfully!
           </div>
-          <button type="submit" style={{ backgroundColor: 'green', color: 'white' }}>Add Todo</button>
-        </form>
+        )}
       </div>
     </div>
   );
 };
 
-export default AddTodo;
+export default AddItems;
