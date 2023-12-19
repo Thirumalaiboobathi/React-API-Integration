@@ -1,0 +1,79 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 50px;
+  font-family: Arial, sans-serif;
+  margin: 0 auto;
+}
+
+.tabs {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+button {
+  padding: 8px 16px;
+  margin-right: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+  background-color: #3498db; /* Background color for buttons */
+  color: #fff; /* Text color for buttons */
+}
+
+button.active {
+  border: 1px solid #000;
+  background-color: #000; /* Background color for active button */
+}
+
+.form {
+  width: 300px;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+input {
+  width: calc(100% - 20px);
+  margin-bottom: 15px;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+}
+
+button[type='submit'] {
+  width: 100%;
+  background-color: #007bff;
+  color: white;
+}
+
+p {
+  text-align: center;
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+.social-icons span {
+  margin-right: 20px; /* Adjust the value to change the space between icons */
+}
+
+.form button {
+  margin-bottom: 15px; /* Adjust the value as needed for space */
+}
+
+.social-icons span:hover {
+  cursor: pointer;
+  opacity: 0.7; /* Adjust opacity for the hover effect */
+}
