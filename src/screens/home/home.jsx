@@ -3,9 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
 
 const Home = () => {
   const [todos, setTodos] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -25,21 +28,30 @@ const Home = () => {
     const todoToEdit = todos[index];
     navigate('/additems', { state: { editing: true, todoToEdit, index } });
   };
-  
 
   const handleDelete = (index) => {
-    const updatedTodos = [...todos.slice(0, index), ...todos.slice(index + 1)];
+    setCurrentIndex(index);
+    setShowModal(true);
+  };
+
+  const confirmDelete = () => {
+    const updatedTodos = [...todos.slice(0, currentIndex), ...todos.slice(currentIndex + 1)];
     setTodos(updatedTodos);
     localStorage.setItem('todos', JSON.stringify(updatedTodos));
+    setShowModal(false);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
   };
 
   return (
     <div className="container">
       <header>
-        <h1>Todo List</h1>
+        <h1>Student Informationt</h1>
         <div className="d-flex justify-content-between align-items-center">
           <Button variant="primary" className="mb-2" onClick={handleAddTodo}>
-            Add Todo
+            Add Student
           </Button>
           <Button variant="danger" className="mb-2" onClick={handleLogout}>
             Logout
@@ -83,6 +95,20 @@ const Home = () => {
           </Table>
         )}
       </div>
+      <Modal show={showModal} onHide={handleCloseModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Confirm Delete</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Are you sure you want to delete this item?</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseModal}>
+            Cancel
+          </Button>
+          <Button variant="danger" onClick={confirmDelete}>
+            Delete
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };

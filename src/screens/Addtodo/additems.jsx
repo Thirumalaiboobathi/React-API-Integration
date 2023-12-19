@@ -47,7 +47,7 @@ const AddItems = () => {
 
       setTimeout(() => {
         navigate('/home');
-      }, 5000);
+      }, 4000);
     } else {
       const updatedTodos = [...existingTodos, newTodo];
       localStorage.setItem('todos', JSON.stringify(updatedTodos));
@@ -121,6 +121,7 @@ const AddItems = () => {
               onChange={(e) => setPhoneNumber(e.target.value)}
             />
           </Form.Group>
+          <br></br>
           {/* Other form fields */}
           <Button type="submit" variant="success" className="d-block mx-auto">
             {editing ? 'Update Student' : 'Add Student'}

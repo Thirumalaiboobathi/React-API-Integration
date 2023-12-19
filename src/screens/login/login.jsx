@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './loginpage.css';
-import '@fortawesome/fontawesome-free/css/all.min.css';
 import Registration from './register';
-import GoogleButton from './GoogleButton'; // Import your GoogleButton component
+import GoogleButton from './GoogleButton';
 
 const login = () => {
   localStorage.setItem('auth_token', 'my_auth_token_here');
@@ -23,8 +22,9 @@ function LoginPage() {
   const [message, setMessage] = useState('');
   const [messageColor, setMessageColor] = useState('');
   const navigate = useNavigate();
-  const [username, setUsername] = useState(''); // State for username
-  const [password, setPassword] = useState(''); // State for password
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  
 
   const handleTabChange = (tab) => setActiveTab(tab);
 
@@ -58,14 +58,19 @@ function LoginPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            <div style={{ display: 'flex', justifyContent: 'center' }}>
-              {/* Wrapping the login button to center it */}
-              <button onClick={handleLogin}>Login</button>
+            <div className="button-container">
+              <button
+                onClick={handleLogin}
+                style={{ margin: '10px auto', display: 'block' }}
+              >
+                Login
+              </button>
+             
             </div>
-            <p>Forgot password? <a href="#!">Reset here</a></p>
-            {/* Social media icons */}
-            {/* Add your social media icons */}
-            <GoogleButton /> {/* Place the GoogleButton component here */}
+            <p className="forgot-password">
+              Forgot password? <a href="#!">Reset here</a>
+            </p>
+            <GoogleButton />
           </div>
         );
       case 'register':
@@ -83,7 +88,7 @@ function LoginPage() {
   return (
     <div className="container">
       <Tabs activeTab={activeTab} handleTabChange={handleTabChange} />
-      {getActiveComponent()}
+      <div className="form-container">{getActiveComponent()}</div>
       <p style={{ color: messageColor }}>{message}</p>
     </div>
   );
