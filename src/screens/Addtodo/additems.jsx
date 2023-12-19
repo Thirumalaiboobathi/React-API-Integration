@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
-import './addtodo.css'; // Import the CSS file
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './addtodo.css';
 
 const AddItems = () => {
   const [studentName, setStudentName] = useState('');
@@ -13,6 +13,8 @@ const AddItems = () => {
   const [age, setAge] = useState('');
   const [showAlert, setShowAlert] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+  const { editing, todoToEdit,index } = location.state || {};
 
   useEffect(() => {
     if (showAlert) {
@@ -22,18 +24,42 @@ const AddItems = () => {
     }
   }, [showAlert]);
 
+  useEffect(() => {
+    if (editing && todoToEdit) {
+      setStudentName(todoToEdit.studentName || '');
+      setAge(todoToEdit.age || '');
+      setEmail(todoToEdit.email || '');
+      setQualification(todoToEdit.qualification || '');
+      setPhoneNumber(todoToEdit.phoneNumber || '');
+    }
+  }, [editing, todoToEdit]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    const newTodo = { studentName, email, qualification, phoneNumber, age };
+    const newTodo = { studentName, age, email, qualification, phoneNumber };
     const existingTodos = JSON.parse(localStorage.getItem('todos')) || [];
-    const updatedTodos = [...existingTodos, newTodo];
-    localStorage.setItem('todos', JSON.stringify(updatedTodos));
-    setShowAlert(true);
 
-    setTimeout(() => {
-      navigate('/home');
-    }, 5000);
+    if (editing && todoToEdit && typeof index !== 'undefined') {
+      const updatedTodos = [...existingTodos];
+      updatedTodos[index] = { ...newTodo };
+      localStorage.setItem('todos', JSON.stringify(updatedTodos));
+      setShowAlert(true);
+
+      setTimeout(() => {
+        navigate('/home');
+      }, 5000);
+    } else {
+      const updatedTodos = [...existingTodos, newTodo];
+      localStorage.setItem('todos', JSON.stringify(updatedTodos));
+      setShowAlert(true);
+
+      setTimeout(() => {
+        navigate('/home');
+      }, 5000);
+    }
   };
+
+
 
   const handleGoBack = () => {
     navigate('/home');
@@ -55,6 +81,7 @@ const AddItems = () => {
               onChange={(e) => setStudentName(e.target.value)}
             />
           </Form.Group>
+          
           <Form.Group>
             <Form.Label>Age:</Form.Label>
             <Form.Control
@@ -94,13 +121,14 @@ const AddItems = () => {
               onChange={(e) => setPhoneNumber(e.target.value)}
             />
           </Form.Group>
+          {/* Other form fields */}
           <Button type="submit" variant="success" className="d-block mx-auto">
-            Add Student
+            {editing ? 'Update Student' : 'Add Student'}
           </Button>
         </Form>
         {showAlert && (
           <div className="alert animate__animated animate__fadeInOut">
-            Student information added successfully!
+            Student information {editing ? 'updated' : 'added'} successfully!
           </div>
         )}
       </div>
@@ -109,3 +137,7 @@ const AddItems = () => {
 };
 
 export default AddItems;
+
+
+
+

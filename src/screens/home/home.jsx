@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
+import 'bootstrap/dist/css/bootstrap.min.css';
 import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
 
@@ -23,8 +23,9 @@ const Home = () => {
 
   const handleEdit = (index) => {
     const todoToEdit = todos[index];
-    navigate('/additems', { state: { editing: true, todoToEdit } });
+    navigate('/additems', { state: { editing: true, todoToEdit, index } });
   };
+  
 
   const handleDelete = (index) => {
     const updatedTodos = [...todos.slice(0, index), ...todos.slice(index + 1)];
@@ -51,7 +52,6 @@ const Home = () => {
         ) : (
           <Table bordered>
             <thead>
-              {/* ... table headers ... */}
               <tr>
                 <th>Student Name</th>
                 <th>Age</th>
@@ -64,7 +64,6 @@ const Home = () => {
             <tbody>
               {todos.map((todo, index) => (
                 <tr key={index}>
-                  {/* ... table data ... */}
                   <td>{todo.studentName}</td>
                   <td>{todo.age}</td>
                   <td>{todo.email}</td>
