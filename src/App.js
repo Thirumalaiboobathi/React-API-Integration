@@ -9,7 +9,8 @@ import { AllRoutes } from "./router/router";
 import Login from "./screens/login/login";
 import Home from "./screens/home/home";
 import AddTodo from "./screens/Addtodo/additems";
-import Registration from "./screens/login/register";
+import Register from "./screens/login/register";
+
 
 
 function App() {
@@ -22,7 +23,7 @@ function App() {
       {/* Login Route */}
       <Route path={AllRoutes.login} element={<Login />} />
 
-      <Route path={AllRoutes.register} element={<Registration />} />
+      <Route path={AllRoutes.register} element={<Register />} />
 
       {/* Home Route */}
       <Route path={AllRoutes.home} element={
