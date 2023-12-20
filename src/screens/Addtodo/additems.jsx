@@ -4,7 +4,7 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './addtodo.css';
-import axios from 'axios'; // Import Axios for API requests
+import axios from 'axios';
 import { config } from '../../config';
 
 const AddItems = () => {
@@ -19,7 +19,6 @@ const AddItems = () => {
   const { editing, todoToEdit, index } = location.state || {};
 
   useEffect(() => {
-    // Your existing code for alert handling
     if (showAlert) {
       setTimeout(() => {
         setShowAlert(false);
@@ -28,7 +27,6 @@ const AddItems = () => {
   }, [showAlert]);
 
   useEffect(() => {
-    // Your existing code for prefilling form fields if editing
     if (editing && todoToEdit) {
       setStudentName(todoToEdit.studentName || '');
       setAge(todoToEdit.age || '');
@@ -44,7 +42,6 @@ const AddItems = () => {
 
     try {
       if (editing && todoToEdit && typeof index !== 'undefined') {
-        // Update an existing student
         await axios.put(`${config.api_endpoint_baseURL}/${todoToEdit.id}`, newTodo);
         setShowAlert(true);
 
@@ -52,7 +49,6 @@ const AddItems = () => {
           navigate('/home');
         }, 4000);
       } else {
-        // Add a new student
         await axios.post(`${config.api_endpoint_baseURL}`, newTodo);
         setShowAlert(true);
 
@@ -77,7 +73,7 @@ const AddItems = () => {
           Go Back
         </Button>
         <Form onSubmit={handleSubmit}>
-          <Form.Group>
+          <Form.Group className="mb-3 customFormGroup"style={{ borderWidth: '2px', borderColor: 'black' }} >
             <Form.Label>Student Name:</Form.Label>
             <Form.Control
               type="text"
@@ -85,8 +81,8 @@ const AddItems = () => {
               onChange={(e) => setStudentName(e.target.value)}
             />
           </Form.Group>
-          
-          <Form.Group>
+
+          <Form.Group className="mb-3">
             <Form.Label>Age:</Form.Label>
             <Form.Control
               type="number"
@@ -94,7 +90,8 @@ const AddItems = () => {
               onChange={(e) => setAge(e.target.value)}
             />
           </Form.Group>
-          <Form.Group>
+
+          <Form.Group className="mb-3">
             <Form.Label>Email:</Form.Label>
             <Form.Control
               type="email"
@@ -102,7 +99,8 @@ const AddItems = () => {
               onChange={(e) => setEmail(e.target.value)}
             />
           </Form.Group>
-          <Form.Group>
+
+          <Form.Group className="mb-3">
             <Form.Label>Qualification:</Form.Label>
             <Form.Control
               as="select"
@@ -117,7 +115,8 @@ const AddItems = () => {
               <option value="Diploma">Diploma</option>
             </Form.Control>
           </Form.Group>
-          <Form.Group>
+
+          <Form.Group className="mb-3">
             <Form.Label>Phone Number:</Form.Label>
             <Form.Control
               type="tel"
@@ -125,9 +124,8 @@ const AddItems = () => {
               onChange={(e) => setPhoneNumber(e.target.value)}
             />
           </Form.Group>
-          <br></br>
-          {/* Other form fields */}
-          <Button type="submit" variant="success" className="d-block mx-auto">
+
+          <Button type="submit" variant="success" className="d-block mx-auto mb-3">
             {editing ? 'Update Student' : 'Add Student'}
           </Button>
         </Form>

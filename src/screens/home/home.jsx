@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import axios from 'axios'; // Import Axios for API requests
+import axios from 'axios'; 
 import { config } from '../../config';
 
 const Home = () => {
@@ -26,7 +26,7 @@ const Home = () => {
     }
   };
 
-  // Rest of your existing code for handleAddTodo, handleLogout, handleEdit, etc.
+  
   const handleAddTodo = () => {
     navigate('/additems');
   };
@@ -57,16 +57,16 @@ const Home = () => {
     }
   };
 
-  // Rest of your existing code
+  
   const handleCloseModal = () => {
     setShowModal(false);
   };
 
   return (
     <div className="container">
-      {/* Your existing JSX for displaying table, buttons, and modal */}
+      
       <header>
-        <h1>Student Informationt</h1>
+        <h1>Student Information</h1>
         <div className="d-flex justify-content-between align-items-center">
           <Button variant="primary" className="mb-2" onClick={handleAddTodo}>
             Add Student
@@ -132,3 +132,5 @@ const Home = () => {
 };
 
 export default Home;
+
+
