@@ -4,6 +4,8 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './addtodo.css';
+import axios from 'axios'; // Import Axios for API requests
+import { config } from '../../config';
 
 const AddItems = () => {
   const [studentName, setStudentName] = useState('');
@@ -14,9 +16,10 @@ const AddItems = () => {
   const [showAlert, setShowAlert] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-  const { editing, todoToEdit,index } = location.state || {};
+  const { editing, todoToEdit, index } = location.state || {};
 
   useEffect(() => {
+    // Your existing code for alert handling
     if (showAlert) {
       setTimeout(() => {
         setShowAlert(false);
@@ -25,6 +28,7 @@ const AddItems = () => {
   }, [showAlert]);
 
   useEffect(() => {
+    // Your existing code for prefilling form fields if editing
     if (editing && todoToEdit) {
       setStudentName(todoToEdit.studentName || '');
       setAge(todoToEdit.age || '');
@@ -34,32 +38,32 @@ const AddItems = () => {
     }
   }, [editing, todoToEdit]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const newTodo = { studentName, age, email, qualification, phoneNumber };
-    const existingTodos = JSON.parse(localStorage.getItem('todos')) || [];
 
-    if (editing && todoToEdit && typeof index !== 'undefined') {
-      const updatedTodos = [...existingTodos];
-      updatedTodos[index] = { ...newTodo };
-      localStorage.setItem('todos', JSON.stringify(updatedTodos));
-      setShowAlert(true);
+    try {
+      if (editing && todoToEdit && typeof index !== 'undefined') {
+        // Update an existing student
+        await axios.put(`${config.api_endpoint_baseURL}/${todoToEdit.id}`, newTodo);
+        setShowAlert(true);
 
-      setTimeout(() => {
-        navigate('/home');
-      }, 4000);
-    } else {
-      const updatedTodos = [...existingTodos, newTodo];
-      localStorage.setItem('todos', JSON.stringify(updatedTodos));
-      setShowAlert(true);
+        setTimeout(() => {
+          navigate('/home');
+        }, 4000);
+      } else {
+        // Add a new student
+        await axios.post(`${config.api_endpoint_baseURL}`, newTodo);
+        setShowAlert(true);
 
-      setTimeout(() => {
-        navigate('/home');
-      }, 5000);
+        setTimeout(() => {
+          navigate('/home');
+        }, 5000);
+      }
+    } catch (error) {
+      console.error('Error:', error);
     }
   };
-
-
 
   const handleGoBack = () => {
     navigate('/home');
@@ -138,7 +142,3 @@ const AddItems = () => {
 };
 
 export default AddItems;
-
-
-
-

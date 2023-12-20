@@ -4,6 +4,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import axios from 'axios'; // Import Axios for API requests
+import { config } from '../../config';
 
 const Home = () => {
   const [todos, setTodos] = useState([]);
@@ -12,10 +14,19 @@ const Home = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const todosFromStorage = JSON.parse(localStorage.getItem('todos')) || [];
-    setTodos(todosFromStorage);
+    fetchData(); // Fetch data when the component mounts
   }, []);
 
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(`${config.api_endpoint_baseURL}`);
+      setTodos(response.data); // Set fetched data to the state
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+
+  // Rest of your existing code for handleAddTodo, handleLogout, handleEdit, etc.
   const handleAddTodo = () => {
     navigate('/additems');
   };
@@ -33,20 +44,27 @@ const Home = () => {
     setCurrentIndex(index);
     setShowModal(true);
   };
+  
 
-  const confirmDelete = () => {
-    const updatedTodos = [...todos.slice(0, currentIndex), ...todos.slice(currentIndex + 1)];
-    setTodos(updatedTodos);
-    localStorage.setItem('todos', JSON.stringify(updatedTodos));
-    setShowModal(false);
+  const confirmDelete = async () => {
+    try {
+      await axios.delete(`${config.api_endpoint_baseURL}/${todos[currentIndex].id}`);
+      const updatedTodos = todos.filter((_, index) => index !== currentIndex);
+      setTodos(updatedTodos);
+      setShowModal(false);
+    } catch (error) {
+      console.error('Error deleting:', error);
+    }
   };
 
+  // Rest of your existing code
   const handleCloseModal = () => {
     setShowModal(false);
   };
 
   return (
     <div className="container">
+      {/* Your existing JSX for displaying table, buttons, and modal */}
       <header>
         <h1>Student Informationt</h1>
         <div className="d-flex justify-content-between align-items-center">
