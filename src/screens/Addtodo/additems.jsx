@@ -73,7 +73,7 @@ const AddItems = () => {
           Go Back
         </Button>
         <Form onSubmit={handleSubmit}>
-          <Form.Group className="mb-3 customFormGroup"style={{ borderWidth: '2px', borderColor: 'black' }} >
+          <Form.Group className="mb-3 customFormGroup" style={{ borderWidth: '2px', borderColor: 'black' }} >
             <Form.Label>Student Name:</Form.Label>
             <Form.Control
               type="text"

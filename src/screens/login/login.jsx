@@ -26,7 +26,7 @@ function LoginPage() {
   };
 
   const goToRegister = () => {
-    navigate('/register'); // Change '/register' to your actual registration page route
+    navigate('/register');
   };
 
   return (
@@ -40,21 +40,22 @@ function LoginPage() {
                 <p className="text-white-50 mb-3">Please enter your login and password!</p>
                 <MDBInput
                   wrapperClass='mb-4 w-100'
-                  label='Username'
                   id='username'
                   type='text'
                   size="lg"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
+                  placeholder='Username'
                 />
                 <MDBInput
                   wrapperClass='mb-4 w-100'
-                  label='Password'
+                  
                   id='password'
                   type='password'
                   size="lg"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  placeholder='Password'
                 />
                 <MDBCheckbox name='flexCheck' id='flexCheckDefault' className='mb-4' label='Remember password' />
                 <MDBBtn size='lg' onClick={handleLogin}>

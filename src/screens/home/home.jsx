@@ -4,23 +4,25 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import axios from 'axios'; 
+import axios from 'axios';
 import { config } from '../../config';
+import { FaEdit, FaTrash } from 'react-icons/fa';
 
 const Home = () => {
+  // ... (previous code remains the same)
   const [todos, setTodos] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetchData(); // Fetch data when the component mounts
+    fetchData(); 
   }, []);
 
   const fetchData = async () => {
     try {
       const response = await axios.get(`${config.api_endpoint_baseURL}`);
-      setTodos(response.data); // Set fetched data to the state
+      setTodos(response.data); 
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -62,26 +64,26 @@ const Home = () => {
     setShowModal(false);
   };
 
+
   return (
     <div className="container">
-      
       <header>
-        <h1>Student Information</h1>
-        <div className="d-flex justify-content-between align-items-center">
-          <Button variant="primary" className="mb-2" onClick={handleAddTodo}>
+        <h1 className="text-center mt-3 mb-4">Student Information</h1>
+        <div className="d-flex justify-content-between align-items-center mb-3">
+          <Button variant="success" onClick={handleAddTodo}>
             Add Student
           </Button>
-          <Button variant="danger" className="mb-2" onClick={handleLogout}>
+          <Button variant="danger" onClick={handleLogout}>
             Logout
           </Button>
         </div>
       </header>
       <div className="table-responsive">
         {todos.length === 0 ? (
-          <p>No items yet</p>
+          <p className="text-center">No items yet</p>
         ) : (
-          <Table bordered>
-            <thead>
+          <Table striped bordered hover>
+            <thead className="table-dark">
               <tr>
                 <th>Student Name</th>
                 <th>Age</th>
@@ -100,11 +102,12 @@ const Home = () => {
                   <td>{todo.qualification}</td>
                   <td>{todo.phoneNumber}</td>
                   <td>
-                    <Button variant="primary" onClick={() => handleEdit(index)}>
-                      Edit
-                    </Button>{' '}
+                  <Button variant="info" className="me-2" onClick={() => handleEdit(index)}>
+                      <FaEdit /> Edit
+                    </Button>
+                    
                     <Button variant="danger" onClick={() => handleDelete(index)}>
-                      Delete
+                      <FaTrash /> Delete
                     </Button>
                   </td>
                 </tr>
@@ -114,7 +117,7 @@ const Home = () => {
         )}
       </div>
       <Modal show={showModal} onHide={handleCloseModal}>
-        <Modal.Header closeButton>
+      <Modal.Header closeButton>
           <Modal.Title>Confirm Delete</Modal.Title>
         </Modal.Header>
         <Modal.Body>Are you sure you want to delete this item?</Modal.Body>
@@ -132,5 +135,3 @@ const Home = () => {
 };
 
 export default Home;
-
-
