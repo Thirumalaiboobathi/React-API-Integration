@@ -5,13 +5,14 @@ import {
   MDBCard,
   MDBCardBody,
   MDBInput,
-  MDBIcon,
+  
   MDBRow,
   MDBCol,
   MDBCheckbox
 } from 'mdb-react-ui-kit';
 import './register.css';
-import stu from "./studentlife.webp"
+import stu from "./studentlife.webp";
+import { Facebook, Google } from '@mui/icons-material';
 
 function Register() {
   return (
@@ -39,11 +40,11 @@ function Register() {
                 <p>or sign up with:</p>
                 <hr className="my-4" />
                 <MDBBtn className="mb-2 w-100" size="lg" style={{ backgroundColor: '#dd4b39' }}>
-                  <MDBIcon fab icon="google" className="mx-2" />
+                  <Google className="mx-2" />
                   Sign in with Google
                 </MDBBtn>
                 <MDBBtn className="mb-4 w-100" size="lg" style={{ backgroundColor: '#3b5998' }}>
-                  <MDBIcon fab icon="facebook-f" className="mx-2" />
+                  <Facebook className="mx-2" />
                   Sign in with Facebook
                 </MDBBtn>
               </div>

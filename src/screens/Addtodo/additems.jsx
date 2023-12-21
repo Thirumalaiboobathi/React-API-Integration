@@ -124,7 +124,9 @@ const AddItems = () => {
               <option value="">Select</option>
               <option value="BE/B Tech">BE/B Tech</option>
               <option value="ME">ME</option>
-              {/* Add other options */}
+              <option value="ME">Diplomo</option>
+              <option value="ME">Bsc/Msc</option>
+              <option value="ME">BCA/MCA</option>
             </Form.Control>
           </Form.Group>
 

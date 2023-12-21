@@ -7,6 +7,7 @@ import Modal from 'react-bootstrap/Modal';
 import axios from 'axios';
 import { config } from '../../config';
 import { FaEdit, FaTrash } from 'react-icons/fa';
+import { Spinner } from 'react-bootstrap';
 
 const Home = () => {
   // ... (previous code remains the same)
@@ -14,6 +15,7 @@ const Home = () => {
   const [showModal, setShowModal] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(null);
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchData(); 
@@ -23,8 +25,10 @@ const Home = () => {
     try {
       const response = await axios.get(`${config.api_endpoint_baseURL}`);
       setTodos(response.data); 
+      setLoading(false);
     } catch (error) {
       console.error('Error fetching data:', error);
+      setLoading(false);
     }
   };
 
@@ -79,7 +83,18 @@ const Home = () => {
         </div>
       </header>
       <div className="table-responsive">
-        {todos.length === 0 ? (
+        {loading ? ( // Checking if data is still loading
+          <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '200px' }}>
+            {/* Display a loading spinner or message */}
+            {/* For example, using a spinner from react-bootstrap */}
+            <Spinner animation="border" role="status">
+              <span className="visually-hidden">Loading...</span>
+            </Spinner>
+            
+            <p className="m-0 ms-2">Loading...</p>
+          </div>
+        ) : (
+        todos.length === 0 ? (
           <p className="text-center">No items yet</p>
         ) : (
           <Table striped bordered hover>
@@ -114,6 +129,7 @@ const Home = () => {
               ))}
             </tbody>
           </Table>
+        )
         )}
       </div>
       <Modal show={showModal} onHide={handleCloseModal}>

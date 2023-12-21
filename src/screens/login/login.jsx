@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { MDBBtn, MDBContainer, MDBRow, MDBCol, MDBCard, MDBCardBody, MDBInput, MDBIcon, MDBCheckbox } from 'mdb-react-ui-kit';
+import { MDBBtn, MDBContainer, MDBRow, MDBCol, MDBCard, MDBCardBody, MDBInput,  MDBCheckbox } from 'mdb-react-ui-kit';
 import { useNavigate } from 'react-router-dom';
 import { IconButton, InputAdornment, TextField } from '@mui/material';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import { Facebook, Google } from '@mui/icons-material';
 
 
 
@@ -82,13 +83,13 @@ function LoginPage() {
                 <MDBBtn size='lg' onClick={goToRegister} className='mt-3'>
                   Register
                 </MDBBtn>
-                <hr className="my-4" />
+                <br></br>
                 <MDBBtn className="mb-2 w-100" size="lg" style={{ backgroundColor: '#dd4b39' }}>
-                  <MDBIcon fab icon="google" className="mx-2" />
+                  <Google className="mx-2" />
                   Sign in with Google
                 </MDBBtn>
                 <MDBBtn className="mb-4 w-100" size="lg" style={{ backgroundColor: '#3b5998' }}>
-                  <MDBIcon fab icon="facebook-f" className="mx-2" />
+                  <Facebook className="mx-2" />
                   Sign in with Facebook
                 </MDBBtn>
                 <p style={{ color: messageColor }}>{message}</p>
