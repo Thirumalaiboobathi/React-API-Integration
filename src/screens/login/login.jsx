@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 import { MDBBtn, MDBContainer, MDBRow, MDBCol, MDBCard, MDBCardBody, MDBInput, MDBIcon, MDBCheckbox } from 'mdb-react-ui-kit';
 import { useNavigate } from 'react-router-dom';
+import { IconButton, InputAdornment, TextField } from '@mui/material';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+
+
 
 const login = () => {
   localStorage.setItem('auth_token', 'my_auth_token_here');
@@ -12,6 +17,7 @@ function LoginPage() {
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
   const [messageColor, setMessageColor] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleLogin = () => {
     if (username === 'root' && password === '12345678') {
@@ -27,6 +33,10 @@ function LoginPage() {
 
   const goToRegister = () => {
     navigate('/register');
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword((prevShowPassword) => !prevShowPassword);
   };
 
   return (
@@ -47,15 +57,23 @@ function LoginPage() {
                   onChange={(e) => setUsername(e.target.value)}
                   placeholder='Username'
                 />
-                <MDBInput
-                  wrapperClass='mb-4 w-100'
-                  
+                <TextField
                   id='password'
-                  type='password'
-                  size="lg"
+                  type={showPassword ? 'text' : 'password'}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder='Password'
+                  variant='outlined'
+                  fullWidth
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position='end'>
+                        <IconButton onClick={togglePasswordVisibility} edge='end'>
+                          {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
                 />
                 <MDBCheckbox name='flexCheck' id='flexCheckDefault' className='mb-4' label='Remember password' />
                 <MDBBtn size='lg' onClick={handleLogin}>
@@ -66,13 +84,13 @@ function LoginPage() {
                 </MDBBtn>
                 <hr className="my-4" />
                 <MDBBtn className="mb-2 w-100" size="lg" style={{ backgroundColor: '#dd4b39' }}>
-                <MDBIcon fab icon="google" className="mx-2" />
-                Sign in with Google
-              </MDBBtn>
-              <MDBBtn className="mb-4 w-100" size="lg" style={{ backgroundColor: '#3b5998' }}>
-                <MDBIcon fab icon="facebook-f" className="mx-2" />
-                Sign in with Facebook
-              </MDBBtn>
+                  <MDBIcon fab icon="google" className="mx-2" />
+                  Sign in with Google
+                </MDBBtn>
+                <MDBBtn className="mb-4 w-100" size="lg" style={{ backgroundColor: '#3b5998' }}>
+                  <MDBIcon fab icon="facebook-f" className="mx-2" />
+                  Sign in with Facebook
+                </MDBBtn>
                 <p style={{ color: messageColor }}>{message}</p>
               </MDBCardBody>
             </MDBCard>
